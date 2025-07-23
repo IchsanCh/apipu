@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('izins', function (Blueprint $table) {
             $table->id();
             $table->string('nama_izin');
-            $table->integer('unit_id');
+            $table->unsignedBigInteger('unit_id');
             $table->timestamps();
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
         });
