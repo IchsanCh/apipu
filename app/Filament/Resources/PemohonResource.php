@@ -6,9 +6,11 @@ use App\Filament\Resources\PemohonResource\Pages;
 use App\Filament\Resources\PemohonResource\RelationManagers;
 use App\Models\Pemohon;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -41,7 +43,7 @@ class PemohonResource extends Resource
                                 'selesai' => 'Selesai',
                             ])
                             ->default('active'),
-                        Forms\Components\Select::make('tahapan')
+                        Forms\Components\Select::make('nama_proses')
                             ->label('Tahapan')
                             ->options([
                                 'pengajuan' => 'Pengajuan',
@@ -53,6 +55,10 @@ class PemohonResource extends Resource
                             ->relationship('izin', 'nama_izin')
                             ->label('Jenis Izin')
                             ->required(),
+                        TextInput::make('no_permohonan')
+                            ->label('Nomor permohonan')
+                            ->required()
+                            ->maxLength(255)
                     ])->columns(2),
             ]);
     }
@@ -72,11 +78,15 @@ class PemohonResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('tahapan')
+                Tables\Columns\TextColumn::make('nama_proses')
                     ->label('Tahapan')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('izin.nama_izin')
                     ->label('Jenis Izin')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('no_permohonan')
+                    ->label('Nomor Permohonan')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -89,6 +99,7 @@ class PemohonResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('nama');
             $table->string('nomor_hp');
             $table->enum('status', ['proses', 'selesai'])->default('proses');
-            $table->string('tahapan')->default('verifikasi berkas');
-            $table->unsignedBigInteger('izin_id');
+            $table->string('nama_proses')->default('verifikasi berkas');
+            $table->integer('izin_id');
             $table->timestamps();
-
+            $table->string('no_permohonan');
             $table->foreign('izin_id')->references('id')->on('izins')->onDelete('cascade');
         });
     }

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\IzinResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\IzinResource\RelationManagers;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 
 class IzinResource extends Resource
@@ -31,7 +32,13 @@ class IzinResource extends Resource
                             ->label('Nama Izin')
                             ->required()
                             ->maxLength(255),
-                    ])->columns(1)
+                        Select::make('unit_id')
+                            ->relationship('unit', 'name')
+                            ->label('Unit Instansi')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                    ])->columns(2)
             ]);
     }
 
@@ -41,6 +48,10 @@ class IzinResource extends Resource
             ->columns([
                 TextColumn::make('nama_izin')
                     ->label('Nama Izin')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('unit.name')
+                    ->label('Unit Instansi')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')
@@ -53,6 +64,7 @@ class IzinResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

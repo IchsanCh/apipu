@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pemohon extends Model
 {
-    protected $fillable = ['nama', 'nomor_hp', 'status', 'tahapan', 'izin_id'];
+    protected $fillable = ['nama', 'nomor_hp', 'status', 'nama_proses', 'izin_id', 'no_permohonan'];
     public function izin()
     {
         return $this->belongsTo(Izin::class);

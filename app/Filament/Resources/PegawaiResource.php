@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PegawaiResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PegawaiResource\RelationManagers;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 
 class PegawaiResource extends Resource
 {
@@ -35,6 +37,21 @@ class PegawaiResource extends Resource
                             ->tel()
                             ->required()
                             ->maxLength(15),
+                        TextInput::make('email')
+                            ->label('Email Pegawai')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('posisi')
+                            ->label('Posisi Pegawai')
+                            ->required()
+                            ->maxLength(255),
+                        Select::make('unit_id')
+                            ->relationship('unit', 'name')
+                            ->label(('Unit Instansi'))
+                            ->required()
+                            ->searchable()
+                            ->preload(),
                     ])->columns(2),
             ]);
     }
@@ -51,12 +68,25 @@ class PegawaiResource extends Resource
                     ->label('Nomor HP')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('email')
+                    ->label('Email Pegawai')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('posisi')
+                    ->label('Posisi')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('unit.name')
+                    ->label('Unit Instansi')
+                    ->searchable()
+                    ->sortable()
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
