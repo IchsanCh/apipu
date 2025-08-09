@@ -51,8 +51,9 @@ class PemohonController extends Controller
                         'no_permohonan' => $p->no_permohonan,
                         'jenis_izin' => $p->izin->nama_izin ?? null,
                         'nama_proses' => $p->nama_proses,
+                        'link_izin' => $p->link_izin ?? null,
                         'status' => $p->status,
-                        'tgl_pengajuan' => $p->created_at->toDateTimeString(),
+                        'tgl_pengajuan' => $p->created_at,
                     ];
                 })->toArray(),
             ], 200);
@@ -95,6 +96,7 @@ class PemohonController extends Controller
                     'no_permohonan' => $p->no_permohonan,
                     'jenis_izin' => $p->izin->nama_izin ?? null,
                     'nama_proses' => $p->nama_proses,
+                    'link_izin' => $p->link_izin ?? null,
                     'status' => $p->status,
                     'tgl_pengajuan' => $p->created_at->toIso8601String(), // Format ISO8601
                     'alamat' => $p->alamat ?? null,

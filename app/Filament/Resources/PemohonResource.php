@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PemohonResource\Pages;
 use App\Filament\Resources\PemohonResource\RelationManagers;
 use App\Models\Pemohon;
+use Dom\Text;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -43,14 +44,10 @@ class PemohonResource extends Resource
                                 'selesai' => 'Selesai',
                             ])
                             ->default('active'),
-                        Forms\Components\Select::make('nama_proses')
+                        Forms\Components\TextInput::make('nama_proses')
                             ->label('Tahapan')
-                            ->options([
-                                'pengajuan' => 'Pengajuan',
-                                'verifikasi' => 'Verifikasi',
-                                'persetujuan' => 'Persetujuan',
-                                'selesai' => 'Selesai',
-                            ]),
+                            ->required()
+                            ->maxLength(255),
                         Forms\Components\Select::make('izin_id')
                             ->relationship('izin', 'nama_izin')
                             ->label('Jenis Izin')
@@ -58,7 +55,11 @@ class PemohonResource extends Resource
                         TextInput::make('no_permohonan')
                             ->label('Nomor permohonan')
                             ->required()
-                            ->maxLength(255)
+                            ->maxLength(255),
+                        TextInput::make('link_izin')
+                            ->label('Link Izin')
+                            ->nullable()
+                            ->maxLength(255),
                     ])->columns(2),
             ]);
     }
