@@ -20,5 +20,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@gmail.com',
             'password' => bcrypt('123')
         ]);
+        $this->call([
+            ApiCredentialSeeder::class,
+        ]);
     }
 }
